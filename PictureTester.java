@@ -25,9 +25,7 @@ public class PictureTester {
         // testKeepOnlyGreen();
         // testNegate();
         // testGrayscale();
-
-        // DO THIS STILL!!!!!!
-        testFixUnderwater(); 
+        //testFixUnderwater(); 
 
         // --------------
         // ACTIVITY 6
@@ -40,7 +38,7 @@ public class PictureTester {
         // ---------------
         // ACTIVITY 7
         // testMirrorTemple();
-        // testMirrorArms();
+        testMirrorArms();
         // testMirrorGull();
 
         // ---------------

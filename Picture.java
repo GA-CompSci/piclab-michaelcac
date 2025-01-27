@@ -367,11 +367,43 @@ public class Picture extends SimplePicture {
     /** Mirror just part of a picture of a temple */
     public void mirrorTemple() {
         Pixel[][] pixels = this.getPixels2D();
+        // identify the height of the picture
+        int height = pixels.length;
+        // identify the width of the picture
+        int width = pixels[0].length;
+        // traverse the rows
+        for(int row = 30; row < 101; row++) {
+            // traverse left half of the columns to translate the other half
+            for(int col = 0; col < pixels[0].length; col++) {
+                // mirror the picture
+                Pixel leftPixel = pixels[row][col];
+                Pixel rightPixel = pixels[row][width - col - 1];
+                rightPixel.setColor(leftPixel.getColor());
+            }
+        }
 
     }
 
     /** Mirror just part of a picture of a snowman */
     public void mirrorArms() {
+        // 169 columns
+        Pixel[][] pixels = this.getPixels2D();
+        // identify the height of the picture
+        int height = pixels.length;
+        // identify the width of the picture
+        int width = pixels[0].length;
+        // traverse HALF the rows
+        for(int row = 0; row < height / 4; row++) {
+            // traverse left half of the columns to translate the other half
+            for(int col = 0; col < width; col++) {
+                // mirror the picture horizontally
+                Pixel topPixel = pixels[row][col];
+                Pixel bottomPixel = pixels[height - 1 - row][col];
+                bottomPixel.setColor(topPixel.getColor());
+
+            }
+        }
+
 
     }
 
