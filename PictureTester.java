@@ -38,8 +38,10 @@ public class PictureTester {
         // ---------------
         // ACTIVITY 7
         // testMirrorTemple();
-        testMirrorArms();
+        // testMirrorArms();
         // testMirrorGull();
+
+
 
         // ---------------
         // ACTIVITY 8
@@ -47,7 +49,7 @@ public class PictureTester {
 
         // ---------------
         // ACTIVITY 9
-        // testEdgeDetection();
+        testEdgeDetection();
 
         // ---EXTRA---
         // testPopArt();

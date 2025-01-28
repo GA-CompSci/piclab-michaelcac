@@ -386,29 +386,50 @@ public class Picture extends SimplePicture {
 
     /** Mirror just part of a picture of a snowman */
     public void mirrorArms() {
-        // 169 columns
         Pixel[][] pixels = this.getPixels2D();
-        // identify the height of the picture
-        int height = pixels.length;
-        // identify the width of the picture
-        int width = pixels[0].length;
-        // traverse HALF the rows
-        for(int row = 0; row < height / 4; row++) {
-            // traverse left half of the columns to translate the other half
-            for(int col = 0; col < width; col++) {
-                // mirror the picture horizontally
-                Pixel topPixel = pixels[row][col];
-                Pixel bottomPixel = pixels[height - 1 - row][col];
-                bottomPixel.setColor(topPixel.getColor());
-
+        // loops
+        int count = 0;
+        int max1 = 194;
+        for(int row = 156; row < 204; row++) {
+            for(int col = 239; col <= 291; col++) {
+                Pixel pete = pixels[row][col];
+                pixels[(max1-count)+ 35][col].setColor(pete.getColor());
             }
+            count++;
         }
+        for(int row = 156; row < 195; row++) {
+            for(int col = 100; col <= 170; col++) {
+                Pixel pete = pixels[row][col];
+                pixels[(max1-count)+ 80][col].setColor(pete.getColor());
+            }
+            count++;
+        }
+        
 
 
     }
 
     /** Mirror just the gull */
     public void mirrorGull() {
+        Pixel[][] pixels = this.getPixels2D();
+        Picture gull = new Picture(327-234+1, 343-233+1);
+        Pixel[][] gullPixels = gull.getPixels2D();
+        int newRow = 0;
+        int newCol = 0;
+        for(int row = 234; row <= 327; row++) {
+            // traverse left half of the columns to translate the other half
+            newCol = 0;
+            for(int col = 233; col <= 343; col++) {
+                if(pixels[row][col].getGreen() < 300) {
+                    gullPixels[newRow][newCol].setColor(pixels[row][col].getColor());
+                }
+                newCol++;
+            }
+            newRow++;
+        }
+        this.copy(gull, 220, 100);
+
+
 
     }
 
@@ -418,13 +439,40 @@ public class Picture extends SimplePicture {
      * @param edgeDist the distance for finding edges
      */
     public void edgeDetection(int edgeDist) {
+        Pixel randoPixel = null;
         Pixel leftPixel = null;
         Pixel rightPixel = null;
+        Pixel topPixel = null;
+        Pixel bottomPixel = null;
+        Pixel diagonalPixel = null;
         Pixel[][] pixels = this.getPixels2D();
+        // store a backup
         Picture swan = new Picture("swan.jpg");
         Pixel[][] original = swan.getPixels2D();
 
-    }
+        Color otherColor = null;
+        // loop through the rows, stop one before the end
+        for(int row = 0; row < pixels.length - 1; row++) {
+            // loop through the columns, stop one before the end
+            for(int col = 0; col < pixels[0].length - 1; col++) {
+                randoPixel = pixels[row][col];
+                // check left and right pixels
+                leftPixel = pixels[row][col+1];
+                rightPixel = pixels[row + 1][col];
+                diagonalPixel = pixels[row + 1][col + 1];
+                otherColor = randoPixel.getColor();
+                
+                if(leftPixel.colorDistance(otherColor) > edgeDist * 3 || rightPixel.colorDistance(otherColor) > edgeDist * 2.7 || diagonalPixel.colorDistance(otherColor) > edgeDist * 3) {
+                    randoPixel.setColor(Color.BLACK);
+                } else {
+                    randoPixel.setColor(Color.WHITE);
+
+                }
+                
+            }
+        }
+
+    }  
 
     /**
      * Method to show large changes in color
@@ -439,6 +487,29 @@ public class Picture extends SimplePicture {
     /** Method to create a collage of several pictures */
     public void createCollage() {
         Pixel[][] pixels = this.getPixels2D();
+        Picture whiteFlower = new Picture("whiteFlower.jpg");
+        Picture gorge = new Picture("gorge.jpg");
+        Picture beach = new Picture("beach.jpg");
+        Picture water = new Picture("water.jpg");
+        Picture earth = new Picture("earth.jpg");
+
+        whiteFlower = whiteFlower.scale(0.5, 0.5);
+        gorge = gorge.scale(0.75, 1);
+        beach = beach.scale(0.5, 0.7);
+        water = water.scale(0.65, 0.7);
+        earth = earth.scale(0.35, 0.35);
+
+        // copy the photos and make sure the photos in the collage aren't overlapping (columns go from 0 to 639, rows go from 0 to 479) we used .scale as well
+        this.copy(gorge, 0, 0);
+        this.copy(whiteFlower, 0, 318);
+        this.copy(beach, 240, 0);
+        this.copy(water, 240, 318);
+        this.copy(earth, 155, 230);
+        
+        // this.copy(gull, 0, 0);
+        // this.copy(swan, 119, 0);
+        // this.copy(temple, 239, 0);
+        // this.copy(water, 358, 0);
 
         this.popArt();
     }
